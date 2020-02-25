@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 class Todolist extends Component {
     state={
         Items:'',
-        list:[]
+        list:[],
+       
+        id:Date.now()
     }
 
 change = (event)=>{
@@ -15,7 +17,7 @@ additems =(event) =>{
     
     this.setState({
         Items:'',
-        list: [...this.state.list , this.state.Items]
+        list: [...this.state.list , { x: this.state.Items , iscomplete:false}]
     });
     // {Console.log(this.state);}
 }
@@ -28,27 +30,32 @@ deleteitem=(e)=>{
      
 }
 
-complete=(e)=>{
-this.setState(
-     
-      {item : e.target.value}
 
-);
+    complete = (id) => {
+        this.setState({
+            list: this.state.list.map((item,index) => index === id ? { ...item, iscomplete  :!item.iscomplete }: item)
+            // list: this.state.list.map((item,index)=> index===i?{...item, isComplete:!item.isComplete}: item)
+        })
+  
+    };
+
+
+
     
-}
+
 
 redertodo =() =>
 {
     return (
-       this.state.list.map((item)=> {
+       this.state.list.map((item, i )=> {
         return (
-            <div className="newitem"  key={item}  style={{textDecoration: this.state.list ? "line-through" : "none"}} >
-                {item} 
+            <div   key={item}   >
+                <span className={item.iscomplete ? "completet" : ""}>  {item.x}</span>   
                 <button onClick={this.deleteitem}>delete</button>
                 <button 
-                onClick={this.complete}
+                onClick={() => this.complete(i)}
                 
-                >complete</button>
+                >Complete</button>
             </div>
         )
        }
@@ -81,3 +88,5 @@ redertodo =() =>
     }
 }
 export default Todolist
+
+// style={{textDecoration: this.state.list ? "line-through" : "none"}}

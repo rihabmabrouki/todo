@@ -30,3 +30,7 @@ button{
   margin-top: 50px;
 
 }
+
+.completet{
+  text-decoration: line-through;
+  }
